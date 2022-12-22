@@ -4,7 +4,7 @@ BPFTOOL ?= $(SRC)/lib/internal/ebpf/tools/bpftool
 APPS_DIR := $(abspath .)
 prefix ?= /usr/local
 ARCH := $(shell uname -m | sed 's/x86_64/x86/')
-LIBBPF_OBJ += $(OBJ_LIB_PATH)/libbpf.a
+COOLBPF_OBJ += $(OBJ_LIB_PATH)/libbpf.a $(OBJ_LIB_PATH)/coolbpf.a
 
 ifeq ($(KERNEL_DEPEND), Y)
 TARGET_PATH := $(OBJ_TOOLS_PATH)
@@ -42,7 +42,7 @@ bpfskel := $(patsubst %.bpf.o, %.skel.h, $(target_bpfobjs))
 
 all: $(target) target_rule
 
-$(target): $(target_cobjs) $(bpfskel) $(LIBBPF_OBJ)
+$(target): $(target_cobjs) $(bpfskel) $(COOLBPF_OBJ)
 	$(call msg,BINARY,$@)
 	$(Q)$(CC) $(CFLAGS) $(INCLUDES) $^ -lelf -lz -o $(TARGET_PATH)/$@ -L$(OBJ_LIB_PATH) $(LDFLAGS)
 $(target_cobjs): $(cobjs)
